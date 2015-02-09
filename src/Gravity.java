@@ -70,6 +70,7 @@ public class Gravity extends Scene {
 			planet.myVel = planet.myPos.sub(new Point()).cross(new Vector(0, 0, 1)).scale(.0001);
 			myPlanets.add(planet);
 		}
+		
 	}
 
 	/**
