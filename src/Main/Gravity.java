@@ -34,7 +34,7 @@ public class Gravity extends Scene {
 	private double distance = 1.0;
 	private double size = 50;
 
-	private ArrayList<Planet> myPlanets;
+	public static ArrayList<Planet> myPlanets;
 
 	/**
 	 * Create the scene with the given arguments.
@@ -67,12 +67,6 @@ public class Gravity extends Scene {
 		return "blargh";
 	}
 
-	public Vector calcGrav(Planet a, Planet b) {
-		double g = 0.0001 * b.myMass / a.myPos.sub(b.myPos).lengthSquared();
-		Vector delta = b.myPos.sub(a.myPos).scale(g);
-		return delta;
-	}
-
 	public void collide(Planet a, Planet b) {
 		if (a.myMass > b.myMass) {
 			Vector momentumA = a.myVel.scale(a.myMass);
@@ -102,19 +96,7 @@ public class Gravity extends Scene {
 		Planet[] remove = null;
 		//ArrayList<Planet[]> removeList = new ArrayList<Planet[]>();
 		for (Planet planet:myPlanets) {
-			for (Planet other:myPlanets) {
-				if (other != planet) {
-					planet.myVel = planet.myVel.add(calcGrav(planet, other));
-					planet.myPos = planet.myPos.add(planet.myVel);
-
-					// check for collision
-					double d = planet.myPos.sub(other.myPos).length();
-					if (d < planet.getRadius() || d < other.getRadius()) {
-						remove = new Planet[] {planet, other};
-						//removeList.add(new Planet[] {planet, other});
-					}
-				}
-			}
+			remove = planet.update();
 		}
 		if (remove != null) {
 			collide(remove[0], remove[1]);
