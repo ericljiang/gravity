@@ -29,7 +29,7 @@ public class Gravity extends Scene {
 	private double myX;
 	private double myY;
 	private double myZ;
-	private double distance = 100.0;
+	private double distance = 1.0;
 	private double size = 50;
 
 	private ArrayList<Planet> myPlanets;
@@ -62,7 +62,7 @@ public class Gravity extends Scene {
 		myPlanets.add(new Planet(10, 0, 0, 0));
 		for (int i = 0; i < 500; i++) {
 			Planet planet = new Planet(
-					0.025 * Math.random(),
+					0.005 * Math.random(),
 					size * Math.random() - size * 0.5,
 					size * Math.random() - size * 0.5,
 					size * Math.random() - size * 0.5
@@ -183,13 +183,19 @@ public class Gravity extends Scene {
 	@Override
 	public void display (GL2 gl, GLU glu, GLUT glut) {
 		update();
-
+		
+		
+		gl.glPushMatrix();
 		// camera
+		gl.glScaled(distance, distance, distance);
 		gl.glRotated(myAngleX, 1, 0, 0);
 		gl.glRotated(myAngleZ, 0, 0, 1);
 		Planet sun = myPlanets.get(0);
 
 		glut.glutWireCube(50);
+		glut.glutWireCylinder(10, 0, 20, 0);
+		glut.glutWireCylinder(20, 0, 20, 0);
+		glut.glutWireCylinder(30, 0, 20, 0);
 		gl.glTranslated(-1 * sun.myPos.x, -1 * sun.myPos.y, -1 * sun.myPos.z);
 
 		for (Planet planet:myPlanets) {
@@ -202,8 +208,15 @@ public class Gravity extends Scene {
 				//glut.glutWireCube((float) planet.getRadius());
 			} gl.glPopMatrix();
 		}
+		gl.glPopMatrix();
 
 		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		gl.glPushMatrix(); {
+			//gl.glRasterPos3i(10, 0, 0);
+			gl.glRasterPos2i(20, 0);
+			gl.glColor3f(1f, 1f, 1f);
+			glut.glutBitmapString(8, "test");
+		} gl.glPopMatrix();
 	}
 
 	/**
@@ -211,7 +224,7 @@ public class Gravity extends Scene {
 	 */
 	@Override
 	public void setCamera (GL2 gl, GLU glu, GLUT glut) {
-		glu.gluLookAt(0, distance, 0,  // from position
+		glu.gluLookAt(0, 100, 0,  // from position
 				0, 0, 0,  // to position
 				0, 0, 1); // up direction
 	}
@@ -249,11 +262,11 @@ public class Gravity extends Scene {
 			break;
 		case KeyEvent.VK_PLUS:
 		case KeyEvent.VK_EQUALS:
-			distance -= 3;
+			distance -= 0.01;
 			break;
 		case KeyEvent.VK_MINUS:
 		case KeyEvent.VK_UNDERSCORE:
-			distance += 3;
+			distance += 0.01;
 			break;
 		}
 	}
