@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
+import objects.Planet;
 import ray.math.Point;
 import ray.math.Vector;
 
@@ -33,22 +34,6 @@ public class Gravity extends Scene {
 	private double size = 50;
 
 	private ArrayList<Planet> myPlanets;
-
-	public class Planet {
-		public double myMass;
-		public Point myPos;
-		public Vector myVel;
-
-		public Planet (double mass, double x, double y, double z) {
-			myMass = mass;
-			myPos = new Point(x, y, z);
-			myVel = new Vector(); 
-		}
-
-		public double getRadius() {
-			return Math.pow(myMass, 1.0 / 3.0);
-		}
-	}
 
 	/**
 	 * Create the scene with the given arguments.
