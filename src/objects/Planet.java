@@ -14,29 +14,28 @@ public class Planet {
 		myPos = new Point(x, y, z);
 		myVel = new Vector(); 
 	}
-	
+
 	public Vector calcGrav(Planet a, Planet b) {
 		double g = 0.0001 * b.myMass / a.myPos.sub(b.myPos).lengthSquared();
 		Vector delta = b.myPos.sub(a.myPos).scale(g);
 		return delta;
 	}
-	
+
 	public Planet[] update() {
 		Planet[] remove = null;
-		for (Planet planet:Gravity.myPlanets) {
-			for (Planet other:Gravity.myPlanets) {
-				if (other != planet) {
-					planet.myVel = planet.myVel.add(calcGrav(planet, other));
-					planet.myPos = planet.myPos.add(planet.myVel);
+		for (Planet other:Gravity.myPlanets) {
+			if (other != this) {
+				this.myVel = this.myVel.add(calcGrav(this, other));
+				this.myPos = this.myPos.add(this.myVel);
 
-					// check for collision
-					double d = planet.myPos.sub(other.myPos).length();
-					if (d < planet.getRadius() || d < other.getRadius()) {
-						remove = new Planet[] {planet, other};
-						//removeList.add(new Planet[] {planet, other});
-					}
+				// check for collision
+				double d = this.myPos.sub(other.myPos).length();
+				if (d < this.getRadius() || d < other.getRadius()) {
+					remove = new Planet[] {this, other};
+					//removeList.add(new Planet[] {planet, other});
 				}
 			}
+
 		}
 		return remove;
 	}
