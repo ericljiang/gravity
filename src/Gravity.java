@@ -100,7 +100,7 @@ public class Gravity extends Scene {
 			b.myMass += a.myMass;
 			myPlanets.remove(a);
 		}
-		System.out.println("Collision");
+		//System.out.println("Collision");
 		
 //		Point mid = a.myPos.scaleAdd(0.5, b.myPos.sub(a.myPos));
 //		Planet newPlanet = new Planet(a.myMass + b.myMass, mid.x, mid.y, mid.z);
@@ -201,7 +201,7 @@ public class Gravity extends Scene {
 		for (Planet planet:myPlanets) {
 			gl.glPushMatrix(); {
 				// define object's color
-				double[] rgb = colorRamp(planet.myMass, 0.5);
+				double[] rgb = colorRamp(planet.myMass, 0.04);
 				gl.glColor3d(rgb[0], rgb[1], rgb[2]);
 				gl.glTranslated(planet.myPos.x, planet.myPos.y, planet.myPos.z);
 				glut.glutSolidSphere(planet.getRadius(), 8, 8);
